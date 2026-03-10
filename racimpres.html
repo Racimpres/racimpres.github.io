@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Racimpres — Imprenta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1a1209;
+      --paper: #f5f0e8;
+      --cream: #ede7d4;
+      --red: #c0392b;
+      --gold: #c9973a;
+      --gray: #6b6355;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* ── HERO ── */
+    header {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background-color: var(--ink);
+      color: var(--paper);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 59px,
+        rgba(255,255,255,0.025) 59px,
+        rgba(255,255,255,0.025) 60px
+      );
+      pointer-events: none;
+    }
+
+    /* Big decorative R */
+    .deco-r {
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(320px, 40vw, 560px);
+      font-weight: 900;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.07);
+      line-height: 1;
+      user-select: none;
+      animation: fadeSlideR 1.4s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes fadeSlideR {
+      from { opacity: 0; transform: translateY(-45%) translateX(80px); }
+      to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 3rem;
+      position: relative;
+      z-index: 2;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .logo span { color: var(--red); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    nav ul a {
+      color: rgba(245,240,232,0.65);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--paper); }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem 3rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 900;
+      line-height: 0.95;
+      max-width: 700px;
+      animation: fadeUp 0.9s 0.35s ease both;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      margin-top: 2.5rem;
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(245,240,232,0.6);
+      max-width: 360px;
+      line-height: 1.7;
+      animation: fadeUp 0.9s 0.5s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.65s ease both;
+    }
+
+    .btn {
+      padding: 0.85rem 2rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #a93226;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(192,57,43,0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--paper);
+      border: 1px solid rgba(245,240,232,0.35);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--paper);
+      background: rgba(245,240,232,0.07);
+    }
+
+    .hero-strip {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 1.5rem 3rem;
+      position: relative;
+      z-index: 2;
+      gap: 3rem;
+      animation: fadeUp 0.9s 0.8s ease both;
+    }
+
+    .hero-stat { text-align: center; }
+    .hero-stat strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .hero-stat span {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+    }
+
+    .hero-strip-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--red);
+      overflow: hidden;
+      padding: 0.8rem 0;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 20s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      padding: 0 2rem;
+      white-space: nowrap;
+    }
+
+    .marquee-track span::before {
+      content: '◆ ';
+      color: rgba(255,255,255,0.4);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { padding: 7rem 3rem; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    .section-desc {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--gray);
+      max-width: 480px;
+      line-height: 1.8;
+    }
+
+    /* ── SERVICES ── */
+    #servicios {
+      background: var(--cream);
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5px;
+      background: rgba(26,18,9,0.12);
+      border: 1.5px solid rgba(26,18,9,0.12);
+    }
+
+    .service-card {
+      background: var(--cream);
+      padding: 2.5rem 2rem;
+      transition: background 0.3s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover { background: #fff; }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .service-desc {
+      font-size: 0.85rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ── WHY US ── */
+    #nosotros {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      padding: 7rem 3rem;
+    }
+
+    .why-visual {
+      position: relative;
+    }
+
+    .why-box {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 3.5rem;
+      position: relative;
+    }
+
+    .why-box::after {
+      content: '';
+      position: absolute;
+      right: -16px;
+      bottom: -16px;
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--gold);
+      z-index: -1;
+    }
+
+    .why-box-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+      color: var(--paper);
+    }
+
+    .why-box-quote span { color: var(--gold); }
+
+    .why-box-attr {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+    }
+
+    .why-list {
+      list-style: none;
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .why-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+
+    .why-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--red);
+      font-weight: 500;
+      padding-top: 0.15rem;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    .why-text strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .why-text p {
+      font-size: 0.82rem;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+
+    /* ── PROCESO ── */
+    #proceso {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    #proceso .section-label { color: var(--gold); }
+    #proceso .section-desc { color: rgba(245,240,232,0.5); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 4rem;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 2.2rem;
+      left: 0; right: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .step {
+      position: relative;
+      padding-top: 2rem;
+    }
+
+    .step-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-name {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+
+    .step-desc {
+      font-size: 0.82rem;
+      color: rgba(245,240,232,0.45);
+      line-height: 1.7;
+    }
+
+    /* ── CONTACTO ── */
+    #contacto {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.68rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--cream);
+      border: 1.5px solid rgba(26,18,9,0.15);
+      padding: 0.85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--red);
+    }
+
+    .form-group textarea { min-height: 120px; }
+
+    .contact-info {
+      padding-top: 1rem;
+    }
+
+    .contact-info .section-desc { margin-bottom: 3rem; }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(26,18,9,0.1);
+    }
+
+    .info-item:first-of-type { border-top: 1px solid rgba(26,18,9,0.1); }
+
+    .info-icon { font-size: 1.2rem; padding-top: 0.1rem; }
+
+    .info-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.3rem;
+    }
+
+    .info-value {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    .footer-logo span { color: var(--red); }
+
+    footer p {
+      font-size: 0.78rem;
+      color: rgba(245,240,232,0.35);
+    }
+
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--paper); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      nav { padding: 1.5rem; }
+      .hero-content { padding: 2rem 1.5rem 0; }
+      .hero-strip { flex-wrap: wrap; padding: 1.5rem; gap: 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      #nosotros, #contacto { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .why-box::after { display: none; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div class="deco-r">R</div>
+
+    <nav>
+      <div class="logo">Raci<span>mpres</span></div>
+      <ul>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Imprenta & Diseño Gráfico</p>
+      <h1 class="hero-title">Imprimimos<br/><em>tus ideas</em><br/>con precisión.</h1>
+      <p class="hero-sub">Calidad de imprenta profesional para empresas, comercios y emprendedores. Cada trabajo, una obra.</p>
+      <div class="hero-cta">
+        <a href="#contacto" class="btn btn-primary">Pedir presupuesto →</a>
+        <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+      </div>
+    </div>
+
+    <div class="hero-strip">
+      <div class="hero-stat">
+        <strong>+30</strong>
+        <span>Años de experiencia</span>
+      </div>
+      <div class="hero-strip-divider"></div>
+      <div class="hero-stat">
+        <strong>100%</strong>
+        <span>Compromiso de calidad</span>
+      </div>
+      <div class="hero-strip-divider"></div>
+      <div class="hero-stat">
+        <strong>Fast</strong>
+        <span>Entrega puntual</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── MARQUEE ── -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>Tarjetas de presentación</span>
+      <span>Folletos y volantes</span>
+      <span>Banners y carteles</span>
+      <span>Papelería institucional</span>
+      <span>Libros y revistas</span>
+      <span>Packaging</span>
+      <span>Ploteos</span>
+      <span>Tarjetas de presentación</span>
+      <span>Folletos y volantes</span>
+      <span>Banners y carteles</span>
+      <span>Papelería institucional</span>
+      <span>Libros y revistas</span>
+      <span>Packaging</span>
+      <span>Ploteos</span>
+    </div>
+  </div>
+
+  <!-- ── SERVICIOS ── -->
+  <section id="servicios">
+    <div class="services-header reveal">
+      <div>
+        <p class="section-label">Lo que hacemos</p>
+        <h2 class="section-title">Nuestros <em>servicios</em></h2>
+      </div>
+      <p class="section-desc">Desde una tarjeta hasta una tirada completa — trabajamos con la misma dedicación en cada proyecto.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <span class="service-icon">🖨️</span>
+        <h3 class="service-name">Impresión Offset</h3>
+        <p class="service-desc">Alta calidad para tiradas grandes. Colores vibrantes, acabado profesional y precio inmejorable por volumen.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">⚡</span>
+        <h3 class="service-name">Impresión Digital</h3>
+        <p class="service-desc">Ideal para tirajes cortos o urgentes. Resultados inmediatos sin perder nitidez ni saturación de color.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📐</span>
+        <h3 class="service-name">Papelería Corporativa</h3>
+        <p class="service-desc">Tarjetas, membretes, sobres, carpetas y todo lo que tu empresa necesita para proyectar profesionalismo.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">📣</span>
+        <h3 class="service-name">Material Publicitario</h3>
+        <p class="service-desc">Flyers, folletos, dípticos, trípticos y catálogos que comunican tu propuesta de forma clara y atractiva.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🎁</span>
+        <h3 class="service-name">Packaging & Etiquetas</h3>
+        <p class="service-desc">Packaging personalizado y etiquetas adhesivas que potencian la identidad de tu producto en el punto de venta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NOSOTROS ── -->
+  <section id="nosotros">
+    <div class="why-visual reveal">
+      <div class="why-box">
+        <p class="why-box-quote">"Cada hoja impresa lleva el <span>compromiso</span> de años de oficio."</p>
+        <p class="why-box-attr">— Racimpres, desde hace más de tres décadas</p>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="section-label">Por qué elegirnos</p>
+      <h2 class="section-title">Una imprenta con <em>historia</em></h2>
+      <p class="section-desc">Somos un negocio familiar con años de trayectoria en el rubro. Conocemos el oficio desde adentro y lo reflejamos en cada trabajo.</p>
+      <ul class="why-list">
+        <li class="why-item">
+          <span class="why-num">01</span>
+          <div class="why-text">
+            <strong>Calidad garantizada</strong>
+            <p>Usamos materiales e insumos de primera línea. No cortamos caminos cuando se trata de la calidad final del producto.</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <span class="why-num">02</span>
+          <div class="why-text">
+            <strong>Atención personalizada</strong>
+            <p>Hablás directamente con quien toma decisiones. Sin intermediarios, sin demoras innecesarias.</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <span class="why-num">03</span>
+          <div class="why-text">
+            <strong>Plazos cumplidos</strong>
+            <p>Sabemos que los tiempos son clave para tu negocio. Nos comprometemos con las fechas acordadas y las cumplimos.</p>
+          </div>
+        </li>
+        <li class="why-item">
+          <span class="why-num">04</span>
+          <div class="why-text">
+            <strong>Precios competitivos</strong>
+            <p>Presupuesto sin cargo y sin compromiso. Trabajo de calidad a precios que no te van a sorprender de mal manera.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── PROCESO ── -->
+  <section id="proceso">
+    <div class="reveal" style="max-width:600px">
+      <p class="section-label">Cómo trabajamos</p>
+      <h2 class="section-title" style="color:var(--paper)">Del pedido a tus <em>manos</em></h2>
+      <p class="section-desc">Un proceso simple, transparente y sin sorpresas desagradables.</p>
+    </div>
+    <div class="steps-grid reveal">
+      <div class="step">
+        <div class="step-number">01</div>
+        <h3 class="step-name">Consulta</h3>
+        <p class="step-desc">Nos contás qué necesitás. Por teléfono, WhatsApp o email — como te sea más cómodo.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">02</div>
+        <h3 class="step-name">Presupuesto</h3>
+        <p class="step-desc">Te enviamos un presupuesto detallado sin compromiso. Claro, preciso y sin letras chicas.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">03</div>
+        <h3 class="step-name">Producción</h3>
+        <p class="step-desc">Aprobado el presupuesto, ponemos manos a la obra con los más altos estándares de calidad.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">04</div>
+        <h3 class="step-name">Entrega</h3>
+        <p class="step-desc">Retirás por nuestro local o coordinamos el envío. En tiempo y forma, como prometemos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACTO ── -->
+  <section id="contacto">
+    <div class="contact-info reveal">
+      <p class="section-label">Hablemos</p>
+      <h2 class="section-title">Pedí tu <em>presupuesto</em> hoy</h2>
+      <p class="section-desc">Completá el formulario o contactanos directamente. Respondemos rápido.</p>
+
+      <div class="info-item">
+        <span class="info-icon">📍</span>
+        <div>
+          <p class="info-label">Dirección</p>
+          <p class="info-value">Nuestra Señora de la Merced 2739</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">📞</span>
+        <div>
+          <p class="info-label">Teléfono</p>
+          <p class="info-value">4734-2976</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">💬</span>
+        <div>
+          <p class="info-label">WhatsApp</p>
+          <p class="info-value">11 3038-0933</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">✉️</span>
+        <div>
+          <p class="info-label">Email</p>
+          <p class="info-value">racimpres@gmail.com</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">🕐</span>
+        <div>
+          <p class="info-label">Horario</p>
+          <p class="info-value">Lun–Vie 9:00 a 16:00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="tu@email.com"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Teléfono / WhatsApp</label>
+        <input type="tel" placeholder="+54 9 11 ..."/>
+      </div>
+      <div class="form-group">
+        <label>Servicio de interés</label>
+        <select>
+          <option value="">Seleccioná un servicio</option>
+          <option>Impresión Offset</option>
+          <option>Impresión Digital</option>
+          <option>Papelería Corporativa</option>
+          <option>Material Publicitario</option>
+          <option>Packaging & Etiquetas</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea placeholder="Contanos qué necesitás: cantidad, tamaño, materiales, plazos..."></textarea>
+      </div>
+      <button class="btn btn-primary" style="align-self:flex-start" onclick="alert('¡Gracias por tu mensaje! Nos ponemos en contacto a la brevedad.')">Enviar consulta →</button>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div>
+      <div class="footer-logo">Raci<span>mpres</span></div>
+      <p style="margin-top:0.4rem">© 2025 Racimpres. Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>

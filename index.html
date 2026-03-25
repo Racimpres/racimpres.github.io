@@ -7,12 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --ink: #1a1209;
-      --paper: #f5f0e8;
-      --cream: #ede7d4;
-      --red: #c0392b;
-      --gold: #c9973a;
-      --gray: #6b6355;
+      --ink: #1a1a1a;
+      --paper: #f4f6f8;
+      --cream: #e8eef3;
+      --red: #e0007a;       /* magenta del logo */
+      --gold: #00adef;      /* cian del logo    */
+      --yellow: #f5d800;    /* amarillo del logo */
+      --gray: #5a6472;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -62,7 +63,6 @@
       pointer-events: none;
     }
 
-    /* Big decorative R */
     .deco-r {
       position: absolute;
       right: -60px;
@@ -104,9 +104,29 @@
       font-weight: 900;
       letter-spacing: 0.05em;
       text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
     }
 
     .logo span { color: var(--red); }
+
+    .logo-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .logo-dots i {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      font-style: normal;
+    }
+    .logo-dots i:nth-child(1) { background: #00adef; }
+    .logo-dots i:nth-child(2) { background: #e0007a; }
+    .logo-dots i:nth-child(3) { background: #f5d800; }
+    .logo-dots i:nth-child(4) { background: #fff; opacity: 0.7; }
 
     nav ul {
       list-style: none;
@@ -231,7 +251,7 @@
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
       font-weight: 700;
-      color: var(--gold);
+      color: var(--yellow);
     }
     .hero-stat span {
       font-size: 0.72rem;
@@ -253,9 +273,11 @@
 
     /* ── MARQUEE ── */
     .marquee-wrap {
-      background: var(--red);
+      background: var(--ink);
       overflow: hidden;
       padding: 0.8rem 0;
+      border-top: 3px solid var(--red);
+      border-bottom: 3px solid var(--gold);
     }
 
     .marquee-track {
@@ -473,7 +495,7 @@
       color: var(--paper);
     }
 
-    #proceso .section-label { color: var(--gold); }
+    #proceso .section-label { color: var(--yellow); }
     #proceso .section-desc { color: rgba(245,240,232,0.5); }
 
     .steps-grid {
@@ -674,7 +696,12 @@
     <div class="deco-r">R</div>
 
     <nav>
-      <div class="logo">Raci<span>mpres</span></div>
+      <div class="logo">
+        Raci<span>mpres</span>
+        <div class="logo-dots">
+          <i></i><i></i><i></i><i></i>
+        </div>
+      </div>
       <ul>
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
@@ -705,11 +732,19 @@
       </div>
       <div class="hero-strip-divider"></div>
       <div class="hero-stat">
-        <strong>Fast</strong>
+        <strong>Rápido</strong>
         <span>Entrega puntual</span>
       </div>
     </div>
   </header>
+
+  <!-- ── BARRA CMYK ── -->
+  <div style="display:flex;height:5px;">
+    <div style="flex:1;background:#00adef;"></div>
+    <div style="flex:1;background:#e0007a;"></div>
+    <div style="flex:1;background:#f5d800;"></div>
+    <div style="flex:1;background:#1a1a1a;"></div>
+  </div>
 
   <!-- ── MARQUEE ── -->
   <div class="marquee-wrap">
@@ -825,7 +860,7 @@
       <div class="step">
         <div class="step-number">01</div>
         <h3 class="step-name">Consulta</h3>
-        <p class="step-desc">Nos contás qué necesitás. Por teléfono, WhatsApp o email — como te sea más cómodo.</p>
+        <p class="step-desc">Nos contás qué necesitás. Por WhatsApp o email — como te sea más cómodo.</p>
       </div>
       <div class="step">
         <div class="step-number">02</div>
@@ -860,13 +895,6 @@
         </div>
       </div>
       <div class="info-item">
-        <span class="info-icon">📞</span>
-        <div>
-          <p class="info-label">Teléfono</p>
-          <p class="info-value">4734-2976</p>
-        </div>
-      </div>
-      <div class="info-item">
         <span class="info-icon">💬</span>
         <div>
           <p class="info-label">WhatsApp</p>
@@ -877,7 +905,7 @@
         <span class="info-icon">✉️</span>
         <div>
           <p class="info-label">Email</p>
-          <p class="info-value">racimpres@gmail.com</p>
+          <p class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="483a292b2125383a2d3b082f25292124662b2725">[email&#160;protected]</a></p>
         </div>
       </div>
       <div class="info-item">
@@ -889,24 +917,35 @@
       </div>
     </div>
 
-    <div class="contact-form reveal">
+    <!-- FORMULARIO — conectado a Formspree -->
+    <!-- ⚠️ REEMPLAZAR "YOUR_FORM_ID" con el ID que te da Formspree al registrarte -->
+    <form
+      class="contact-form reveal"
+      action="https://formspree.io/f/xlgorlze"
+      method="POST"
+    >
+      <!-- Campo oculto: redirige a la misma página tras el envío -->
+      <input type="hidden" name="_next" value="https://racimpres.github.io/#contacto" />
+      <!-- Asunto del mail que llega -->
+      <input type="hidden" name="_subject" value="Nueva consulta desde racimpres.github.io" />
+
       <div class="form-row">
         <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" placeholder="Tu nombre"/>
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="tu@email.com"/>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
         </div>
       </div>
       <div class="form-group">
-        <label>Teléfono / WhatsApp</label>
-        <input type="tel" placeholder="+54 9 11 ..."/>
+        <label for="telefono">Teléfono / WhatsApp</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="+54 9 11 ..." />
       </div>
       <div class="form-group">
-        <label>Servicio de interés</label>
-        <select>
+        <label for="servicio">Servicio de interés</label>
+        <select id="servicio" name="servicio">
           <option value="">Seleccioná un servicio</option>
           <option>Impresión Offset</option>
           <option>Impresión Digital</option>
@@ -917,19 +956,27 @@
         </select>
       </div>
       <div class="form-group">
-        <label>Mensaje</label>
-        <textarea placeholder="Contanos qué necesitás: cantidad, tamaño, materiales, plazos..."></textarea>
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" name="mensaje" placeholder="Contanos qué necesitás: cantidad, tamaño, materiales, plazos..."></textarea>
       </div>
-      <button class="btn btn-primary" style="align-self:flex-start" onclick="alert('¡Gracias por tu mensaje! Nos ponemos en contacto a la brevedad.')">Enviar consulta →</button>
-    </div>
+      <button type="submit" class="btn btn-primary" style="align-self:flex-start">Enviar consulta →</button>
+    </form>
   </section>
 
   <!-- ── FOOTER ── -->
   <footer>
-    <div>
-      <div class="footer-logo">Raci<span>mpres</span></div>
-      <p style="margin-top:0.4rem">© 2025 Racimpres. Todos los derechos reservados.</p>
-    </div>
+      <div>
+        <div class="footer-logo">
+          Raci<span>mpres</span>
+          <span style="display:inline-flex;gap:4px;margin-left:8px;vertical-align:middle;">
+            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00adef;"></i>
+            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0007a;"></i>
+            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5d800;"></i>
+            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5);"></i>
+          </span>
+        </div>
+        <p style="margin-top:0.4rem">© 2025 Racimpres. Todos los derechos reservados.</p>
+      </div>
     <div class="footer-links">
       <a href="#servicios">Servicios</a>
       <a href="#nosotros">Nosotros</a>
@@ -937,17 +984,6 @@
     </div>
   </footer>
 
-  <script>
-    // Scroll reveal
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.12 });
-    reveals.forEach(r => observer.observe(r));
-  </script>
-</body>
-</html>

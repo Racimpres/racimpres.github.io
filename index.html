@@ -10,14 +10,13 @@
       --ink: #1a1a1a;
       --paper: #f4f6f8;
       --cream: #e8eef3;
-      --red: #e0007a;       /* magenta del logo */
-      --gold: #00adef;      /* cian del logo    */
-      --yellow: #f5d800;    /* amarillo del logo */
+      --magenta: #e0007a;
+      --cyan: #00adef;
+      --yellow: #f5d800;
       --gray: #5a6472;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -27,7 +26,6 @@
       overflow-x: hidden;
     }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
     body::before {
       content: '';
       position: fixed;
@@ -38,7 +36,6 @@
       opacity: 0.5;
     }
 
-    /* ── HERO ── */
     header {
       min-height: 100vh;
       display: grid;
@@ -53,13 +50,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 59px,
-        rgba(255,255,255,0.025) 59px,
-        rgba(255,255,255,0.025) 60px
-      );
+      background: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 59px, rgba(255,255,255,0.025) 60px);
       pointer-events: none;
     }
 
@@ -109,31 +100,21 @@
       gap: 0.6rem;
     }
 
-    .logo span { color: var(--red); }
+    .logo span { color: var(--magenta); }
 
-    .logo-dots {
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
+    .logo-dots { display: flex; gap: 4px; align-items: center; }
     .logo-dots i {
       display: inline-block;
-      width: 9px;
-      height: 9px;
+      width: 9px; height: 9px;
       border-radius: 50%;
       font-style: normal;
     }
     .logo-dots i:nth-child(1) { background: #00adef; }
     .logo-dots i:nth-child(2) { background: #e0007a; }
     .logo-dots i:nth-child(3) { background: #f5d800; }
-    .logo-dots i:nth-child(4) { background: #fff; opacity: 0.7; }
+    .logo-dots i:nth-child(4) { background: rgba(255,255,255,0.6); }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2.5rem;
-    }
-
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
     nav ul a {
       color: rgba(245,240,232,0.65);
       text-decoration: none;
@@ -143,7 +124,6 @@
       text-transform: uppercase;
       transition: color 0.2s;
     }
-
     nav ul a:hover { color: var(--paper); }
 
     .hero-content {
@@ -160,7 +140,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--red);
+      color: var(--magenta);
       margin-bottom: 1.5rem;
       animation: fadeUp 0.9s 0.2s ease both;
     }
@@ -174,10 +154,7 @@
       animation: fadeUp 0.9s 0.35s ease both;
     }
 
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
+    .hero-title em { font-style: italic; color: var(--cyan); }
 
     .hero-sub {
       margin-top: 2.5rem;
@@ -212,15 +189,11 @@
       border: none;
     }
 
-    .btn-primary {
-      background: var(--red);
-      color: #fff;
-    }
-
+    .btn-primary { background: var(--magenta); color: #fff; }
     .btn-primary:hover {
-      background: #a93226;
+      background: #b8006a;
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(192,57,43,0.4);
+      box-shadow: 0 12px 30px rgba(224,0,122,0.4);
     }
 
     .btn-outline {
@@ -228,7 +201,6 @@
       color: var(--paper);
       border: 1px solid rgba(245,240,232,0.35);
     }
-
     .btn-outline:hover {
       border-color: var(--paper);
       background: rgba(245,240,232,0.07);
@@ -260,24 +232,21 @@
       color: rgba(245,240,232,0.5);
     }
 
-    .hero-strip-divider {
-      width: 1px;
-      height: 40px;
-      background: rgba(255,255,255,0.1);
-    }
+    .hero-strip-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.1); }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── MARQUEE ── */
+    .cmyk-bar { display: flex; height: 5px; }
+    .cmyk-bar div { flex: 1; }
+
     .marquee-wrap {
       background: var(--ink);
       overflow: hidden;
       padding: 0.8rem 0;
-      border-top: 3px solid var(--red);
-      border-bottom: 3px solid var(--gold);
+      border-bottom: 3px solid var(--cyan);
     }
 
     .marquee-track {
@@ -296,17 +265,13 @@
       white-space: nowrap;
     }
 
-    .marquee-track span::before {
-      content: '◆ ';
-      color: rgba(255,255,255,0.4);
-    }
+    .marquee-track span::before { content: '◆ '; color: var(--magenta); }
 
     @keyframes marquee {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
 
-    /* ── SECTIONS COMMON ── */
     section { padding: 7rem 3rem; }
 
     .section-label {
@@ -314,7 +279,7 @@
       font-size: 0.68rem;
       letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--red);
+      color: var(--magenta);
       margin-bottom: 1rem;
     }
 
@@ -327,7 +292,7 @@
       margin-bottom: 1.5rem;
     }
 
-    .section-title em { font-style: italic; color: var(--gold); }
+    .section-title em { font-style: italic; color: var(--cyan); }
 
     .section-desc {
       font-size: 0.95rem;
@@ -337,10 +302,7 @@
       line-height: 1.8;
     }
 
-    /* ── SERVICES ── */
-    #servicios {
-      background: var(--cream);
-    }
+    #servicios { background: var(--cream); }
 
     .services-header {
       display: flex;
@@ -373,7 +335,7 @@
       position: absolute;
       bottom: 0; left: 0; right: 0;
       height: 3px;
-      background: var(--red);
+      background: var(--magenta);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
@@ -382,11 +344,7 @@
     .service-card:hover::before { transform: scaleX(1); }
     .service-card:hover { background: #fff; }
 
-    .service-icon {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      display: block;
-    }
+    .service-icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; }
 
     .service-name {
       font-family: 'Playfair Display', serif;
@@ -395,13 +353,8 @@
       margin-bottom: 0.75rem;
     }
 
-    .service-desc {
-      font-size: 0.85rem;
-      color: var(--gray);
-      line-height: 1.7;
-    }
+    .service-desc { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
 
-    /* ── WHY US ── */
     #nosotros {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -410,9 +363,7 @@
       padding: 7rem 3rem;
     }
 
-    .why-visual {
-      position: relative;
-    }
+    .why-visual { position: relative; }
 
     .why-box {
       background: var(--ink);
@@ -424,11 +375,9 @@
     .why-box::after {
       content: '';
       position: absolute;
-      right: -16px;
-      bottom: -16px;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--gold);
+      right: -16px; bottom: -16px;
+      width: 100%; height: 100%;
+      border: 2px solid var(--cyan);
       z-index: -1;
     }
 
@@ -442,7 +391,7 @@
       color: var(--paper);
     }
 
-    .why-box-quote span { color: var(--gold); }
+    .why-box-quote span { color: var(--cyan); }
 
     .why-box-attr {
       font-family: 'DM Mono', monospace;
@@ -460,41 +409,22 @@
       gap: 1.5rem;
     }
 
-    .why-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.2rem;
-    }
+    .why-item { display: flex; align-items: flex-start; gap: 1.2rem; }
 
     .why-num {
       font-family: 'DM Mono', monospace;
       font-size: 0.7rem;
-      color: var(--red);
+      color: var(--magenta);
       font-weight: 500;
       padding-top: 0.15rem;
       letter-spacing: 0.1em;
       white-space: nowrap;
     }
 
-    .why-text strong {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 500;
-      margin-bottom: 0.25rem;
-    }
+    .why-text strong { display: block; font-size: 0.95rem; font-weight: 500; margin-bottom: 0.25rem; }
+    .why-text p { font-size: 0.82rem; color: var(--gray); line-height: 1.65; }
 
-    .why-text p {
-      font-size: 0.82rem;
-      color: var(--gray);
-      line-height: 1.65;
-    }
-
-    /* ── PROCESO ── */
-    #proceso {
-      background: var(--ink);
-      color: var(--paper);
-    }
-
+    #proceso { background: var(--ink); color: var(--paper); }
     #proceso .section-label { color: var(--yellow); }
     #proceso .section-desc { color: rgba(245,240,232,0.5); }
 
@@ -509,39 +439,25 @@
     .steps-grid::before {
       content: '';
       position: absolute;
-      top: 2.2rem;
-      left: 0; right: 0;
+      top: 2.2rem; left: 0; right: 0;
       height: 1px;
       background: rgba(255,255,255,0.08);
     }
 
-    .step {
-      position: relative;
-      padding-top: 2rem;
-    }
+    .step { position: relative; padding-top: 2rem; }
 
     .step-number {
       font-family: 'Playfair Display', serif;
       font-size: 3.5rem;
       font-weight: 900;
-      color: var(--red);
+      color: var(--magenta);
       line-height: 1;
       margin-bottom: 1rem;
     }
 
-    .step-name {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 0.6rem;
-    }
+    .step-name { font-size: 1rem; font-weight: 500; margin-bottom: 0.6rem; }
+    .step-desc { font-size: 0.82rem; color: rgba(245,240,232,0.45); line-height: 1.7; }
 
-    .step-desc {
-      font-size: 0.82rem;
-      color: rgba(245,240,232,0.45);
-      line-height: 1.7;
-    }
-
-    /* ── CONTACTO ── */
     #contacto {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -549,19 +465,9 @@
       align-items: start;
     }
 
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
 
     .form-group label {
       font-size: 0.68rem;
@@ -588,16 +494,11 @@
 
     .form-group input:focus,
     .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--red);
-    }
+    .form-group select:focus { border-color: var(--magenta); }
 
     .form-group textarea { min-height: 120px; }
 
-    .contact-info {
-      padding-top: 1rem;
-    }
-
+    .contact-info { padding-top: 1rem; }
     .contact-info .section-desc { margin-bottom: 3rem; }
 
     .info-item {
@@ -621,12 +522,8 @@
       margin-bottom: 0.3rem;
     }
 
-    .info-value {
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
+    .info-value { font-size: 0.9rem; font-weight: 500; }
 
-    /* ── FOOTER ── */
     footer {
       background: var(--ink);
       color: var(--paper);
@@ -643,14 +540,14 @@
       font-size: 1.4rem;
       font-weight: 900;
       letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .footer-logo span { color: var(--red); }
+    .footer-logo span { color: var(--magenta); }
 
-    footer p {
-      font-size: 0.78rem;
-      color: rgba(245,240,232,0.35);
-    }
+    footer p { font-size: 0.78rem; color: rgba(245,240,232,0.35); }
 
     .footer-links { display: flex; gap: 2rem; }
     .footer-links a {
@@ -663,18 +560,13 @@
     }
     .footer-links a:hover { color: var(--paper); }
 
-    /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
       transform: translateY(40px);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav ul { display: none; }
       nav { padding: 1.5rem; }
@@ -691,16 +583,12 @@
 </head>
 <body>
 
-  <!-- ── HEADER ── -->
   <header>
     <div class="deco-r">R</div>
-
     <nav>
       <div class="logo">
         Raci<span>mpres</span>
-        <div class="logo-dots">
-          <i></i><i></i><i></i><i></i>
-        </div>
+        <div class="logo-dots"><i></i><i></i><i></i><i></i></div>
       </div>
       <ul>
         <li><a href="#servicios">Servicios</a></li>
@@ -711,7 +599,7 @@
     </nav>
 
     <div class="hero-content">
-      <p class="hero-eyebrow">Imprenta & Diseño Gráfico</p>
+      <p class="hero-eyebrow">Imprenta &amp; Diseño Gráfico</p>
       <h1 class="hero-title">Imprimimos<br/><em>tus ideas</em><br/>con precisión.</h1>
       <p class="hero-sub">Calidad de imprenta profesional para empresas, comercios y emprendedores. Cada trabajo, una obra.</p>
       <div class="hero-cta">
@@ -738,15 +626,13 @@
     </div>
   </header>
 
-  <!-- ── BARRA CMYK ── -->
-  <div style="display:flex;height:5px;">
-    <div style="flex:1;background:#00adef;"></div>
-    <div style="flex:1;background:#e0007a;"></div>
-    <div style="flex:1;background:#f5d800;"></div>
-    <div style="flex:1;background:#1a1a1a;"></div>
+  <div class="cmyk-bar">
+    <div style="background:#00adef;"></div>
+    <div style="background:#e0007a;"></div>
+    <div style="background:#f5d800;"></div>
+    <div style="background:#1a1a1a;"></div>
   </div>
 
-  <!-- ── MARQUEE ── -->
   <div class="marquee-wrap">
     <div class="marquee-track">
       <span>Tarjetas de presentación</span>
@@ -755,18 +641,17 @@
       <span>Papelería institucional</span>
       <span>Libros y revistas</span>
       <span>Packaging</span>
-      <span>Ploteos</span>
+      <span>Etiquetas</span>
       <span>Tarjetas de presentación</span>
       <span>Folletos y volantes</span>
       <span>Banners y carteles</span>
       <span>Papelería institucional</span>
       <span>Libros y revistas</span>
       <span>Packaging</span>
-      <span>Ploteos</span>
+      <span>Etiquetas</span>
     </div>
   </div>
 
-  <!-- ── SERVICIOS ── -->
   <section id="servicios">
     <div class="services-header reveal">
       <div>
@@ -798,13 +683,12 @@
       </div>
       <div class="service-card">
         <span class="service-icon">🎁</span>
-        <h3 class="service-name">Packaging & Etiquetas</h3>
+        <h3 class="service-name">Packaging &amp; Etiquetas</h3>
         <p class="service-desc">Packaging personalizado y etiquetas adhesivas que potencian la identidad de tu producto en el punto de venta.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── NOSOTROS ── -->
   <section id="nosotros">
     <div class="why-visual reveal">
       <div class="why-box">
@@ -849,7 +733,6 @@
     </div>
   </section>
 
-  <!-- ── PROCESO ── -->
   <section id="proceso">
     <div class="reveal" style="max-width:600px">
       <p class="section-label">Cómo trabajamos</p>
@@ -880,13 +763,11 @@
     </div>
   </section>
 
-  <!-- ── CONTACTO ── -->
   <section id="contacto">
     <div class="contact-info reveal">
       <p class="section-label">Hablemos</p>
       <h2 class="section-title">Pedí tu <em>presupuesto</em> hoy</h2>
       <p class="section-desc">Completá el formulario o contactanos directamente. Respondemos rápido.</p>
-
       <div class="info-item">
         <span class="info-icon">📍</span>
         <div>
@@ -905,7 +786,7 @@
         <span class="info-icon">✉️</span>
         <div>
           <p class="info-label">Email</p>
-          <p class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="483a292b2125383a2d3b082f25292124662b2725">[email&#160;protected]</a></p>
+          <p class="info-value">racimpres@gmail.com</p>
         </div>
       </div>
       <div class="info-item">
@@ -917,18 +798,9 @@
       </div>
     </div>
 
-    <!-- FORMULARIO — conectado a Formspree -->
-    <!-- ⚠️ REEMPLAZAR "YOUR_FORM_ID" con el ID que te da Formspree al registrarte -->
-    <form
-      class="contact-form reveal"
-      action="https://formspree.io/f/xlgorlze"
-      method="POST"
-    >
-      <!-- Campo oculto: redirige a la misma página tras el envío -->
+    <form class="contact-form reveal" action="https://formspree.io/f/xlgorlze" method="POST">
       <input type="hidden" name="_next" value="https://racimpres.github.io/#contacto" />
-      <!-- Asunto del mail que llega -->
       <input type="hidden" name="_subject" value="Nueva consulta desde racimpres.github.io" />
-
       <div class="form-row">
         <div class="form-group">
           <label for="nombre">Nombre</label>
@@ -951,7 +823,7 @@
           <option>Impresión Digital</option>
           <option>Papelería Corporativa</option>
           <option>Material Publicitario</option>
-          <option>Packaging & Etiquetas</option>
+          <option>Packaging &amp; Etiquetas</option>
           <option>Otro</option>
         </select>
       </div>
@@ -963,20 +835,19 @@
     </form>
   </section>
 
-  <!-- ── FOOTER ── -->
   <footer>
-      <div>
-        <div class="footer-logo">
-          Raci<span>mpres</span>
-          <span style="display:inline-flex;gap:4px;margin-left:8px;vertical-align:middle;">
-            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00adef;"></i>
-            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0007a;"></i>
-            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5d800;"></i>
-            <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5);"></i>
-          </span>
-        </div>
-        <p style="margin-top:0.4rem">© 2025 Racimpres. Todos los derechos reservados.</p>
+    <div>
+      <div class="footer-logo">
+        Raci<span>mpres</span>
+        <span style="display:inline-flex;gap:4px;align-items:center;margin-left:4px;">
+          <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#00adef;font-style:normal;"></i>
+          <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0007a;font-style:normal;"></i>
+          <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5d800;font-style:normal;"></i>
+          <i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5);font-style:normal;"></i>
+        </span>
       </div>
+      <p style="margin-top:0.4rem">© 2025 Racimpres. Todos los derechos reservados.</p>
+    </div>
     <div class="footer-links">
       <a href="#servicios">Servicios</a>
       <a href="#nosotros">Nosotros</a>
@@ -984,6 +855,22 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.05 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Mostrar elementos ya visibles al cargar (ej: cuando se entra directo a #contacto)
+    window.addEventListener('load', () => {
+      reveals.forEach(r => {
+        const rect = r.getBoundingClientRect();
+        if (rect.top < window.innerHeight) r.classList.add('visible');
+      });
+    });
+  </script>
+</body>
+</html>
